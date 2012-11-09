@@ -1,15 +1,8 @@
 
-// var map;
-// var geocoder;
-// var places_service;
-// var info;
-
-// var sideBar = new SideBar();
-
-var layout; // all the "global" type stuff should at least be contained in a big layout class
+var layout; // all the "global" type stuff should at least be contained in a big layout class (until we come up with a good design)
 
 //Class definitions:
-
+//TODO: Methods should go on the prototypes
 
 function MapLayout(){
 	this.sideBar = new SideBar(this,"resultlist");
@@ -58,6 +51,14 @@ function DatabaseService(layout,mapPane){
 	    	}
     	);
 	}
+	
+	this.addPlace = function(place){
+		var str = "Pretending to store a place that looks like: \n";
+		for(key in place){
+			str+= (key+" : "+place[key]+"\n");
+		}
+		alert(str);
+	}
 }
 
 function MapPane(layout, location, zoom, DIVid){
@@ -92,6 +93,75 @@ function MapPane(layout, location, zoom, DIVid){
 
 };
 	
+function Place(opts){
+	this.location = null;
+	this.name = null;
+	this.description = '';
+	this.types = [];
+	this.events = [];
+	this.id = null;
+	
+	this.marker = null;
+	this.placeForm = null;
+	this.summary = null;
+	
+	for(key in opts){
+		this[key]=opts[key];
+	}
+	
+}
+
+function PlaceMarker(layout, place){
+	
+}
+
+function PlaceForm(layout, place){
+	this.layout = layout;
+	this.place = place;
+	
+	
+	
+	this.generateHTML = function(){
+		var me = this;
+		
+		var fields = {
+			"name" : $("<input>").attr("type","text").attr("width",400),
+			"description" : $("<input>").attr("type","text").attr("width",400)
+		}
+		
+		for(key in fields){
+			if(place[key]){ //this will backfire if place ever gets a boolean property, what can we use for isNull or isDefined or something?
+				$(fields[key]).attr("value",place[key]);
+			} 
+		}
+		
+		var div = $("<div>").attr("class","place_form_div").append(
+			
+			$("<p>").attr("class","place_form_name").append(this.place.name),
+			
+			$("<p>").append("location: "+this.place.location.toString()), //we will give everything CSS classes later
+			
+			$("<p>").append(
+				"name: ",
+				fields["name"]
+			),
+			$("<p>").append(
+				"description: ",
+				fields["description"]
+			),
+			
+			$("<a>").attr("href","#").attr("class","place_form_add").append("Add place").data("place", place).data("fields",fields).click(function(){
+				$.each(fields,function(key,field){
+					place[key] = field.val(); // name changes will not be reflected in the sidebar. I think the MVC pattern has something to say about this
+				});
+				me.layout.databaseService.addPlace($(this).data("place"));	//when this is real we will need to deal with MORE callbacks. I think the MVC pattern has something to say about this			
+			})
+			
+		);
+
+		return div.get(0); //convert from jquery object to DOM object
+	}
+}
 
 function PlaceSummary(layout, place){
 	this.layout = layout;
@@ -105,12 +175,13 @@ function PlaceSummary(layout, place){
 		name.attr("class","result_name");
 		name.append(this.place.name);
 		li.append(name);
-		li.data("location",this.place.location);
-		li.data("name",this.place.name);
+		li.data("place",this.place);
 		
 		var me = this;
 		li.click(function(){
-			me.layout.mapPane.openInfo($(this).data("location"),$(this).data("name")); 
+			var place = $(this).data("place");
+			place.placeForm = new PlaceForm(me.layout,place);//does this really belong here? no
+			me.layout.mapPane.openInfo(place.location,place.placeForm.generateHTML());
 		});
 		
 		return li;
