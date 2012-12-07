@@ -1,5 +1,6 @@
 body {
-
+/*  min-width: 800px;
+  min-height: 500px;*/
 }
 
 #logo{
@@ -25,12 +26,11 @@ body {
 }
 
 #side{
-	width:300px;
+	width:250px;
 	height:100%;
 }
 
 #map_canvas{
-	border: 1px solid #CBCACA;
 	width:100%;
 	height:100%;
 }
@@ -40,107 +40,24 @@ body {
 	padding-top:1.5em;
 }
 
-
 #resultlist{
 	padding-left:0;
 	height:100%;
 	overflow-y: scroll;
 }
 
-#resultlist{
-	
-	height: 100%;
-	margin-top: 15px;
-	width: 300px;
-	border: 1px solid #cbcaca;
-	border-style: inset;
-	background-image: url("images/temp.png");
-	background-size: 100%;
-	//border-radius: 5px;
-	background-color: #F4F3F0;
-	padding: 5px 0;
-	list-style: none;
-	position: relative;
-	overflow: auto;
-	
-}
-
-#searchinput_div{
-	position: relative;
-	float: left;
-
-}
-
-#search_buttondiv{
-	position: relative;
-	float: left;
-	margin-top: 4px;
-	margin-left: 2px;
-}
-
-#calendarview_button{
-	width: 30px;
-}
-
-#calendarbutton_div{
-	position: relative;
-	margin-top:  50px;
-	float: right;
-	width: 30px;
-}
-
-.res_image_div{
-
-	position: relative;
-	float: left;
-	margin-left: 5px;
-}
-.res_name_div{
-	width: 200px;
-	font-family: sans-serif;
-	text-align: center;
-	margin-left: 12.5px;
-	position: relative;
-	float: left;
-}
-
-.res_body_div{
-	width:275;
-	font-family: sans-serif;
-	font-size: 80%;
-	text-align: center;
-	position: relative;
-	float: left;
-}
-
-.locate{
-	position: relative;
-	float: right;
-	margin-right: 2px;
-	
-}
-
-.locate_button{
-	background-size: 1.5em;
-	width:1.5em;
-	height:1.5em;
-}
-
-.result_div{
-	
-	width: 275px;
-}
-
 .result_li{
-	border: 1px solid #CBCACA;
-	border-style: outset;
-	border-radius: 5px;
-	background-color: white;
-	width: 275px;
-	min-height: 100px;
-	height: auto!important;
-	height: 100px;
-
+	border-color: #888888;
+	border-radius: 5px 5px 5px 5px;
+    border-style: solid;
+    border-width: 1px;
+    list-style-type: none;
+    margin-bottom: 1px;
+    margin-right: 10px;
+    margin-top: 3px;
+    padding-bottom: 0px;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 
 
@@ -170,15 +87,12 @@ a.event_name_link{
 	font-size: smaller;
 }
 
-.event_form_div{
-}
-
 .event_form_field_label{
 	margin-bottom: 5px;	
 }
 
 .event_form_input{
-	width:275px;
+	width:215px;
 }
 
 .event_form_name{
@@ -232,7 +146,6 @@ a.event_name_link{
 	padding-left:1em;
 	margin-top:6px;
 	margin-bottom:6px;
-	width: 25;
 }
 
 .result_events_header{
@@ -246,5 +159,3 @@ a.event_name_link{
 	margin-top:0;
 	margin-bottom:0.25em;
 }
-
-

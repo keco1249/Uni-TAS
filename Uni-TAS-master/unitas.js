@@ -84,8 +84,7 @@ function MapPane(layout, location, zoom, DIVid){
 			position: latLng
 		});
 		
-		this.infoWindow.open(this.map)
-		
+		this.infoWindow.open(this.map);
 	}
 
 	// google.maps.event.addListener(this.map,"rightclick",function(mouseEvent){
@@ -204,46 +203,19 @@ function PlaceSummary(layout, place){
 	this.generateHTML = function(){
 		var me = this;
 		
-		var jq = $("<div>").attr("class", "result_div");
-		
-		var jqImage = $("<div>").attr("class", "res_image_div").append(
-			$("<img>").attr("src", this.place.icon).attr("width", "20")
-		);
-		
-		var jqLocate = $("<div>").attr("class", "locate").append(
-			$("<img>").attr("class", "locate_button").attr("href","#").attr("src","images/location.png").data("place", me.place).click(
-				function(){		
-					var place = $(this).data("place");
-					me.layout.mapPane.openInfo(place.location, me.generateHTML());
-				}
-			)
-		);
-		
-		var jqName = $("<div>").attr("class", "res_name_div").append(
+		var jq = $("<div>").attr("class","result_div").append(
 			$("<p>").attr("class","result_name").append(
-				$("<a>").attr("class","result_name_link").append(this.place.name).data("place",me.place).click(
+				$("<a>").attr("class","result_name_link").attr("href","#").append(this.place.name).data("place",me.place).click(
 					function(){
-						/*
 						var place = $(this).data("place");
+						//place.placeForm = new PlaceForm(me.layout,place);//does this really belong here? probably not
+						//me.layout.mapPane.openInfo(place.location,place.placeForm.generateHTML());
 						me.layout.mapPane.openInfo(place.location,me.generateHTML());
-						*/
 					}
 				)
-			)
-			
-		);
-		
-		var jqBody = $("<div>").attr("class", "res_body_div").append(
+			),
 			$("<p>").attr("class","result_address").append(place.address),
 			$("<p>").attr("class","result_events_header").append("Events:")
-		);
-		
-
-		jq.append(
-			jqImage,
-			jqName,
-			jqBody,
-			jqLocate
 		);
 		
 		var eventList = $("<ul>").attr("class","result_events_ul");
@@ -266,7 +238,6 @@ function PlaceSummary(layout, place){
 				)
 			)
 		);
-		
 		
 		jq.append(eventList);
 		
@@ -387,15 +358,7 @@ add_place = function(latLng,name,type){
 $(document).ready(function() {
 		
 	layout = new MapLayout();
-	$("input#search_button").click(function(){
-		layout.databaseService.nearbySearch(
-			$("input#search_input").val(),
-				function(places, status){
-					var summary = new PlaceSummary(layout,places[0]);
-					layout.mapPane.openInfo(places[0].location, summary.generateHTML());
-					layout.sideBar.showPlaces(places);
-			});
-	});
+	
 	$("input#search_input").keypress(function(e){
 		
 		if(e.which == 13){
